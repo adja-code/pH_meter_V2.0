@@ -3,7 +3,7 @@
 """
 Created on Thu Apr 25 11:34:52 2024
 
-@author: Etudiant.e
+@author: Caroline Lu, Thomas Gauthier-Brouart, Thibault Chardon, Clara Palmieri, François Métivier
 """
 from scipy import interpolate
 import csv
@@ -164,11 +164,7 @@ def Calibration(buffers = [7, 4], n = 100):
 
     res = input("Voulez-vous visualiser la calibration (O/N) ?")
     if res == O:
-        if calib3:
-            plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict)
-        else:
-            plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, [], predict)
-
+        plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict)
 
     if r2 < 0.95:
         print('La calibration ne semble pas précise')
@@ -215,6 +211,7 @@ def Calibration_existante():
     ===========================================================================
     """
     x_calib_existante10 = input(interface_calib_existante10)
+    
     buffers = [7, 4, 10]
     EM4 = []
     EM7 = []
@@ -222,9 +219,12 @@ def Calibration_existante():
     voltage_values = []
     errorvoltage_values = []
     errorbuffers_values = [0.01, 0.01, 0.01]
+    
     c4 = open(x_calib_existante4, 'r')
     c7 = open(x_calib_existante7, 'r')
     c10 = open(x_calib_existante10, 'r')
+
+    ###############################
     csv_reader7 = csv.reader(c7, delimiter=';')
     L = []
     t = []
@@ -239,59 +239,56 @@ def Calibration_existante():
     voltage_values.append(moyenne)
     errorvoltage_values.append(ecart_type)
     c7.close()
+    
+    ###############################
     csv_reader4 = csv.reader(c4, delimiter=';')
     L = []
     t = []
     for row in csv_reader4:
         L.append(float(row[2]))
         t.append(float(row[0]))
+    
     moyenne = np.mean(L)
     ecart_type = np.std(L)
+    
     for m in range(len(L)):
         ecart_moyenne = (L[m]-moyenne)
         EM4.append(ecart_moyenne)
     voltage_values.append(moyenne)
     errorvoltage_values.append(ecart_type)
     c4.close()
+    
+    ###############################
     csv_reader10 = csv.reader(c10, delimiter=';')
     L = []
     t = []
     for row in csv_reader10:
         L.append(float(row[2]))
         t.append(float(row[0]))
+
     moyenne = np.mean(L)
     ecart_type = np.std(L)
+    
     for m in range(len(L)):
         ecart_moyenne = (L[m]-moyenne)
         EM10.append(ecart_moyenne)
+    
     voltage_values.append(moyenne)
     errorvoltage_values.append(ecart_type)
     c10.close() 
-    plt.scatter(voltage_values, buffers, marker = 'd')
-    plt.errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
-    plt.plot(voltage_values, buffers)
-    plt.show()
-    plt.plot(t,EM4, label = 'écart à la moyenne pH4')
-    plt.plot(t,EM7, label = 'écart à la moyenne pH7')
-    plt.plot(t,EM10, label = 'écart à la moyenne pH10')
-    plt.title('Evolution de l\'écart-type des mesures')
-    plt.legend()
-    plt.show()
+
+    ###############################
     model = np.polyfit(voltage_values, buffers, 1)
     print('Les paramètres a et b de notre regression linéaire sont', model)
     predict = np.poly1d(model)
+
     r2_score(buffers, predict(voltage_values))
     r2 = np.round(r2_score(buffers, predict(voltage_values)),5)
     R2 = 'r2 =', r2
     print(R2)
     equation = f'y = {model[0]}x + {model[1]}'
-    x_lin_reg = range(0, 900)
-    y_lin_reg = predict(x_lin_reg)
-    plt.scatter(voltage_values, buffers)
-    plt.plot(x_lin_reg, y_lin_reg, c = 'r')
-    plt.text(0.05, 0.95, equation, transform=plt.gca().transAxes, fontsize=12)
-    plt.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
-    plt.show()
+    plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict, equation, R2)
+
     
     return model
 
@@ -310,14 +307,9 @@ def default_Calibration():
     dpH10 = 0.41288739384970324
     dpH7 = 0.4906882920959089
     dpH4 = 0.9483538369195328
+
     pH = [ 4, 7,  10]
     voltage_values = [pH4, pH7, pH10]
-    plt.scatter(voltage_values, pH, marker = 'd')
-    errorvoltage_values = [dpH4, dpH7, dpH10]
-    errorpH_values = [0.01, 0.01, 0.01]
-    plt.errorbar(voltage_values, pH, errorpH_values, errorvoltage_values, ecolor = 'black')
-    plt.plot(voltage_values, pH)
-    plt.show()
     model = np.polyfit(voltage_values, pH, 1)
     print('Les paramètres a et b de notre regression linéaire sont', model)
     predict = np.poly1d(model)
@@ -325,15 +317,22 @@ def default_Calibration():
     predict(voltage_mesure)
     print('Pour un voltage de %s le pH prédit est de' %(voltage_mesure),predict(voltage_mesure))
     R2 = np.round(r2_score(pH, predict(voltage_values)),5)
-    R2 = 'r2 =', R2
     print(R2)
-    equation_default = f'y = {model[0]}x + {model[1]}'
-    x_lin_reg = range(0, 900)
+    
+    fig,ax=plt.subplots(1)
+    ax.plot(voltage_values, pH, 'o', color='C0')
+    errorvoltage_values = [dpH4, dpH7, dpH10]
+    errorpH_values = [0.01, 0.01, 0.01]    
+    ax.errorbar(voltage_values, pH, errorpH_values, errorvoltage_values, 'o', ecolor = 'C0')
+    
+    R2 = 'r2 = %5.3f'% (R2)
+    equation_default = 'y = %5.3f x + %5.3f' % (model[0], model[1])
+
+    x_lin_reg = range(0, 1023)
     y_lin_reg = predict(x_lin_reg)
-    plt.scatter(voltage_values, pH)
-    plt.plot(x_lin_reg, y_lin_reg, c = 'r')
-    plt.text(0.05, 0.95, equation_default, transform=plt.gca().transAxes, fontsize=12)
-    plt.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
+    ax.plot(x_lin_reg, y_lin_reg, color = 'C1')
+    ax.text(0.05, 0.95, equation_default, transform=plt.gca().transAxes, fontsize=12)
+    ax.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
     plt.show()
     return model
 
@@ -356,26 +355,26 @@ def measure(model, n = 100):
         DESCRIPTION. Evolution des écart à la moyenne au cours du temps.
 
     """
-    EM = []
+
     pH_values = []
     voltage_values = []
     errorvoltage_values = []
     T = time.asctime()
-    # print('Patientez 1 min le temps que la sonde se stabilise')
-    
-    # time.sleep(60)
-    
+    L = []
+
     
     print('Les mesures commencent')
     port_test = serial.Serial(port = '/dev/ttyACM0', baudrate = 9600, timeout = 5) #Ouverture du port RS-232
-    # port_test.readline().decode()
-    # print(port_test.readline().decode())
-    L = []
+
 
     f = open('DATA/fichier_mesure %s.csv' %(T), 'w')
     t0 = time.time()
     continuer = True
     count = 0
+
+    # test de stabilité sur dix séries de mesures
+    stab = np.zeros(10)
+    stcount = np.zeros(10)
     while continuer:
         
         temp_sol = []
@@ -395,50 +394,93 @@ def measure(model, n = 100):
         v_sol = np.array(v_sol)
         ph_sol = v_sol*model[0] + model[1]
         t = time.time()-t0
-        
-        st = " Temps: %4.2f\n Température: %4.2f +/- %4.2f\n Voltage: %4.2f +/- %4.2f\n PH: %4.2f +/- %4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol)) 
+
+        # calcule la stabilité sur les dix denières valeurs de ph moyen
+        stab[stcount] = np.mean(ph_sol)
+        stcount +=1 
+        if stcount < 10: # pas encore dix valeurs
+            stabilite = -1
+        else:
+            stabilite = np.std(stab)
+            stcount=0 # une fois arrivé à 10 on réinitialise le compteur => on remplace les plus anciennes valeurs
+
+        st = " Temps: %4.2f\n Température: %4.2f +/- %4.2f\n Voltage: %4.2f +/- %4.2f\n PH: %4.2f +/- %4.2f\n Stabilité: %4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol),stabilite) 
         print(st)
-        st = "%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol)) 
+        st = "%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol),stabilite) 
         f.write(st)
         
         count += 1
         if count % 10 == 0 :
-            res = input("Continuer les mesures (O/N) ?")
+            res = input("Continuer les mesures (O/N) ? ")
             if res == 'N':
                 continuer = False
                 
     
     f.close()
-    # f = open('DATA/fichier_mesure %s.csv' %(T), 'r')
-    # csv_reader = csv.reader(f, delimiter=';')
-    # for row in csv_reader:
-    #     L.append(float(row[2]))
-    #     t.append(float(row[0]))
-    #     values = (float(row[2]))*model[0] + model[1]
-    #     pH_values.append(values)
-    # moyenne = np.mean(L)
-    # ecart_type = np.std(L)
-    # for m in range(len(L)):
-    #     ecart_moyenne = (L[m]-moyenne)
-    #     EM.append(ecart_moyenne)
-    # voltage_values.append(moyenne)
-    # errorvoltage_values.append(ecart_type)
-    # f.close()
-    # plt.plot(t,EM, label = 'écart à la moyenne')
-    # plt.title('Evolution de l\'écart-type des mesures')
-    # plt.legend()
-    # plt.show()
-    # for j in range(len(pH_values)):
-    #     ecart_moyenne = (pH_values[j]-moyenne)
-    #     EM.append(ecart_moyenne)
-    # plt.plot(t,pH_values, label = 'écart à la moyenne')
-    # plt.title('Evolution de l\'écart-type des mesures')
-    # plt.legend()
-    # plt.show()
-    # pH_measure = moyenne*model[0] + model[1]
-    # print('pH =', np.round(pH_measure,2))
+    res =input("Voulez-vous visualiser graphiquement les mesures (O/N) ? ")
+    if res in ['o','O','y','Y']:
+        plot_mes(T)
 
-def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict):
+
+def plot_mes(T):
+    """Représentation graphique des séries de mesures
+
+    Parameters
+    ----------
+    T : str
+        date du fichier
+    """
+
+    t, mT, sT, mV, sV, mpH, spH, stabilite = np.loadtxt('DATA/fichier_mesure %s.csv' %(T), delimiter=";",unpack=True)
+    
+    fig,ax = plt.subplots(2)
+    ax[0].plot(t,mpH, label = 'pH')
+    ax[0].errorbar(t,mpH, yerr=spH, marker = 'o', color='C0')
+    ax[0].set_ylabel('pH')
+    ax[0].set_xlabel('Temps (s)')
+    ax1 = ax[0].twinx()
+    ax1.plot(t,mT, color='C1', label='Température')
+    ax1.set_ylabel('Température (°C)')
+    ax[0].title('Evolution temporelle des mesures de pH et température')
+    ax[0].legend()
+    
+    
+    ax[1].hist(mpH)
+    ax[1].title('Histogramme des mesures de pH')
+    ax[1].legend()
+    
+    plt.show()
+    
+
+
+def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict, equation, R2):
+    """Représentation graphique des calibrations
+
+    Parameters
+    ----------
+    voltage_values : _type_
+        valeurs de voltages de l'arduino
+    buffers : _type_
+        valeurs des tampons
+    errorbuffers_values : _type_
+        incertitudes sur les tampons
+    errorvoltage_values : _type_
+        incertitude sur les voltages
+    t : _type_
+        temps
+    EM4 : _type_
+        _description_
+    EM7 : _type_
+        _description_
+    EM10 : _type_
+        _description_
+    predict : _type_
+        fonction de prédiction pH=f(V)
+    equation : _type_
+        equation de la calibration
+    R2 : _type_
+        R2 de la calibration
+    """
 
     fig,ax = plt.subplots(1)
     ax.scatter(voltage_values, buffers, marker = 'd')
@@ -473,7 +515,7 @@ if __name__ == '__main__':
     2 - Mesurer
     3 - Quitter
     ===========================================================================
-    ?"""
+    ? """
 
     new_calib = False
     continuer = True
@@ -495,7 +537,7 @@ if __name__ == '__main__':
                 3 - Calibrer à partir d'une calibration déjà existante dans le répertoire
                 4 - Quitter
                 ===========================================================================
-                ?"""
+                ? """
                 x_calib = input(interface_calib)
                 if x_calib == '1':
                     calib3 = False

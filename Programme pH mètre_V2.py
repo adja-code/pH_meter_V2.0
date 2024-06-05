@@ -120,6 +120,7 @@ def Calibration(buffers = [7, 4], n = 100):
             try:
                 line = port_test.readline().decode()
                 st = str(time.time()-t0) + ';' + line
+                print(st,end='\r')
                 f.write(st)
             except:
                 pass
@@ -132,9 +133,12 @@ def Calibration(buffers = [7, 4], n = 100):
         for row in csv_reader:
             L.append(float(row[2]))
             t.append(float(row[0]))
+
         moyenne = np.mean(L)
         ecart_type = np.std(L)
+        
         for m in range(len(L)):
+        
             ecart_moyenne = (L[m]-moyenne)
             if np.round(buffers[i]) == 4.0:
                 EM4.append(ecart_moyenne)
@@ -151,33 +155,21 @@ def Calibration(buffers = [7, 4], n = 100):
 
     model = np.polyfit(voltage_values, buffers, 1)
     print('Les paramètres a et b de notre regression linéaire sont', model)
-
-    # res = input("Voulez-vous visualiser la calibration (O/N) ?")
-    plt.scatter(voltage_values, buffers, marker = 'd')
-    plt.errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
-    plt.plot(voltage_values, buffers)
-    plt.show()
-    plt.plot(t,EM4, label = 'écart à la moyenne pH4')
-    plt.plot(t,EM7, label = 'écart à la moyenne pH7')
-    if calib3:
-        plt.plot(t,EM10, label = 'écart à la moyenne pH10')
-    plt.title('Evolution de l\'écart-type des mesures')
-    plt.legend()
-    plt.show()
-
     predict = np.poly1d(model)
     r2_score(buffers, predict(voltage_values))
     r2 = np.round(r2_score(buffers, predict(voltage_values)),5)
     R2 = 'r2 =', r2
     print(R2)
     equation = f'y = {model[0]}x + {model[1]}'
-    x_lin_reg = range(0, 900)
-    y_lin_reg = predict(x_lin_reg)
-    plt.scatter(voltage_values, buffers)
-    plt.plot(x_lin_reg, y_lin_reg, c = 'r')
-    plt.text(0.05, 0.95, equation, transform=plt.gca().transAxes, fontsize=12)
-    plt.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
-    plt.show()
+
+    res = input("Voulez-vous visualiser la calibration (O/N) ?")
+    if res == O:
+        if calib3:
+            plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict)
+        else:
+            plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, [], predict)
+
+
     if r2 < 0.95:
         print('La calibration ne semble pas précise')
         x = input('Voulez-vous recalibrer le pH mètre ? (Oui: 1/Non: 2) ')
@@ -445,6 +437,29 @@ def measure(model, n = 100):
     # plt.show()
     # pH_measure = moyenne*model[0] + model[1]
     # print('pH =', np.round(pH_measure,2))
+
+def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict):
+
+    fig,ax = plt.subplots(1)
+    ax.scatter(voltage_values, buffers, marker = 'd')
+    ax.errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
+    x_lin_reg = range(0, 900)
+    y_lin_reg = predict(x_lin_reg)
+    ax.plot(x_lin_reg, y_lin_reg, c = 'r')
+    ax.text(0.05, 0.95, equation, transform=plt.gca().transAxes, fontsize=12)
+    ax.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
+    
+    
+    fig2, ax2 = plt.subplots(1)
+    ax2.plot(t,EM4, label = 'écart à la moyenne pH4')
+    ax2.plot(t,EM7, label = 'écart à la moyenne pH7')
+    if len(EM10)>0:
+        ax2.plot(t,EM10, label = 'écart à la moyenne pH10')
+    plt.title('Evolution de l\'écart-type des mesures')
+    plt.legend()
+ 
+ 
+    plt.show()
 
 
 if __name__ == '__main__':

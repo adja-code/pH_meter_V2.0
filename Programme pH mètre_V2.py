@@ -142,10 +142,17 @@ def Calibration(buffers = [7, 4], n = 100):
                 EM7.append(ecart_moyenne)
             if np.round(buffers[i]) == 10.0:
                 EM10.append(ecart_moyenne)
+
         voltage_values.append(moyenne)
         errorvoltage_values.append(ecart_type)
+
         f.close()
         port_test.close()  
+
+    model = np.polyfit(voltage_values, buffers, 1)
+    print('Les paramètres a et b de notre regression linéaire sont', model)
+
+    # res = input("Voulez-vous visualiser la calibration (O/N) ?")
     plt.scatter(voltage_values, buffers, marker = 'd')
     plt.errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
     plt.plot(voltage_values, buffers)
@@ -157,8 +164,7 @@ def Calibration(buffers = [7, 4], n = 100):
     plt.title('Evolution de l\'écart-type des mesures')
     plt.legend()
     plt.show()
-    model = np.polyfit(voltage_values, buffers, 1)
-    print('Les paramètres a et b de notre regression linéaire sont', model)
+
     predict = np.poly1d(model)
     r2_score(buffers, predict(voltage_values))
     r2 = np.round(r2_score(buffers, predict(voltage_values)),5)

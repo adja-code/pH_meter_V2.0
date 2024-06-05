@@ -12,6 +12,7 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score
+import glob
 
 
 T4 = np.array([[0, 4.01], [5, 4.00], [10, 4.00], 
@@ -193,24 +194,49 @@ def Calibration_existante():
         DESCRIPTION. Les paramètres a et b de la courbe de calibration, a correspond au coefficient directeur et b à l'ordonnée à l'origine.
 
     """
-    interface_calib_existante7 ="""
-    ===========================================================================
-    Veuillez renseigner le nom du fichier à pH7 : 
-    ===========================================================================
-    """
-    x_calib_existante7 = input(interface_calib_existante7)
-    interface_calib_existante4 ="""
-    ===========================================================================
-    Veuillez renseigner le nom du fichier à pH4 : 
-    ===========================================================================
-    """
-    x_calib_existante4 = input(interface_calib_existante4)
-    interface_calib_existante10 ="""
-    ===========================================================================
-    Veuillez renseigner le nom du fichier à pH10 : 
-    ===========================================================================
-    """
-    x_calib_existante10 = input(interface_calib_existante10)
+
+    # liste des fichiers disponibles
+    # comme la calib existante demande une calibration à 10 on ne fait que la liste des pH10 existants
+    #
+    cali_dispo = glob.glob('./CALIB/*pH10*.csv')
+    print("Calibrations disponibles:")
+    for i in range(len(cali_dispo)):
+        print("%i - %s" % (i, cali_dispo[i]))
+    res = input("Choisissez votre calibration en entrant son numéro d'ordre: ")
+
+    print(cali_dispo[int(res)][-28:-4])
+
+    cali_chosen = glob.glob('./CALIB/*%s.csv' % (cali_dispo[int(res)][-28:-4]))
+    # 
+    
+    for f in cali_chosen :
+        print(f)
+        if 'pH4' in f:
+            x_calib_existante4 = f
+        elif 'pH7' in f:
+            x_calib_existante7 = f
+        elif 'pH10' in f:
+            x_calib_existante10 = f
+
+
+    # interface_calib_existante7 ="""
+    # ===========================================================================
+    # Veuillez renseigner le nom du fichier à pH7 : 
+    # ===========================================================================
+    # """
+    # x_calib_existante7 = input(interface_calib_existante7)
+    # interface_calib_existante4 ="""
+    # ===========================================================================
+    # Veuillez renseigner le nom du fichier à pH4 : 
+    # ===========================================================================
+    # """
+    # x_calib_existante4 = input(interface_calib_existante4)
+    # interface_calib_existante10 ="""
+    # ===========================================================================
+    # Veuillez renseigner le nom du fichier à pH10 : 
+    # ===========================================================================
+    # """
+    # x_calib_existante10 = input(interface_calib_existante10)
     
     buffers = [7, 4, 10]
     EM4 = []
@@ -286,7 +312,7 @@ def Calibration_existante():
     r2 = np.round(r2_score(buffers, predict(voltage_values)),5)
     R2 = 'r2 =', r2
     print(R2)
-    equation = f'y = {model[0]}x + {model[1]}'
+    equation = 'y = %5.3f x + %5.3f' % (model[0],model[1])
     plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict, equation, R2)
 
     
@@ -482,22 +508,22 @@ def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values
         R2 de la calibration
     """
 
-    fig,ax = plt.subplots(1)
-    ax.scatter(voltage_values, buffers, marker = 'd')
-    ax.errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
+    fig,ax = plt.subplots(2, figsize=(7,15))
+    ax[0].scatter(voltage_values, buffers, marker = 'd')
+    ax[0].errorbar(voltage_values, buffers, errorbuffers_values, errorvoltage_values, ecolor = 'black')
     x_lin_reg = range(0, 900)
     y_lin_reg = predict(x_lin_reg)
-    ax.plot(x_lin_reg, y_lin_reg, c = 'r')
-    ax.text(0.05, 0.95, equation, transform=plt.gca().transAxes, fontsize=12)
-    ax.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
+    ax[0].plot(x_lin_reg, y_lin_reg, c = 'r')
+    ax[0].text(0.05, 0.95, equation, transform=plt.gca().transAxes, fontsize=12)
+    ax[0].text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
+    ax[0].set_title('Droite de calibration')
+    plt.legend()
     
-    
-    fig2, ax2 = plt.subplots(1)
-    ax2.plot(t,EM4, label = 'écart à la moyenne pH4')
-    ax2.plot(t,EM7, label = 'écart à la moyenne pH7')
+    ax[1].plot(t,EM4, label = 'écart à la moyenne pH4')
+    ax[1].plot(t,EM7, label = 'écart à la moyenne pH7')
     if len(EM10)>0:
-        ax2.plot(t,EM10, label = 'écart à la moyenne pH10')
-    plt.title('Evolution de l\'écart-type des mesures')
+        ax[1].plot(t,EM10, label = 'écart à la moyenne pH10')
+    ax[1].set_title('Evolution de l\'écart-type des mesures')
     plt.legend()
  
  
@@ -543,23 +569,24 @@ if __name__ == '__main__':
                     calib3 = False
                     errorbuffers_values = [0.01, 0.01]
                     model = Calibration(buffers = [7, 4], n = 100)
-                    y = input('Prêt à mesurer ?')
-                    measure(model)
+                    # y = input('Prêt à mesurer ?')
+                    # measure(model)
                     new_calib=True
                 elif x_calib == '2':
                     calib3 = True
                     errorbuffers_values = [0.01, 0.01, 0.01]
                     model = Calibration(buffers = [7, 4, 10], n = 100)
-                    y = input('Prêt à mesurer ?')
-                    measure(model)
+                    # y = input('Prêt à mesurer ?')
+                    # measure(model)
                     new_calib=True
                 elif x_calib == '3':
                     model = Calibration_existante()
-                    y = input('Prêt à mesurer ?')
-                    measure(model)
+                    # y = input('Prêt à mesurer ?')
+                    # measure(model)
                     new_calib = True
                 elif x_calib == '4':
                     continuer_calib = False
+
         elif x == '2':
             y = input('Prêt à mesurer ?')
             if new_calib :

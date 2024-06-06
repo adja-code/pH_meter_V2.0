@@ -51,7 +51,7 @@ f4 = interpolate.interp1d(x_T4, y_T4)
 f7 = interpolate.interp1d(x_T7, y_T7)
 f10 = interpolate.interp1d(x_T10, y_T10)
 
-def Calibration(buffers = [7, 4], n = 100):
+def Calibration(buffers = [7, 4], n = 200):
     """Calibre la sonde pH pour 2 et 3 tampons (7, 4 et 10) en 100 mesures. Corrige les valeurs obtenues en fonction de la température.
 
     Parameters
@@ -96,8 +96,8 @@ def Calibration(buffers = [7, 4], n = 100):
             t = time.time()-t0
             try:
                 line = port_test.readline().decode()
-                print(t,line, end="\r")
                 data = line.strip('\r\n').split(';')
+                print("%4.2f; %4.2f; %4.2f" % (t, float(data[0]), float(data[1])), end="\r")
                 temp_sol.append(float(data[0]))
             except:
                 # mauvaise mesure
@@ -119,10 +119,12 @@ def Calibration(buffers = [7, 4], n = 100):
         
         for k in range(n):
             try:
+                t = time.time()-t0
                 line = port_test.readline().decode()
-                st = str(time.time()-t0) + ';' + line
+                data = line.strip('\r\n').split(';')
+                st = "%4.2f; %4.2f; %4.2f" % (t, float(data[0]), float(data[1]))
                 print(st,end='\r')
-                f.write(st)
+                f.write(st + '\n')
             except:
                 pass
         f.close()
@@ -164,8 +166,8 @@ def Calibration(buffers = [7, 4], n = 100):
     equation = f'y = {model[0]}x + {model[1]}'
 
     res = input("Voulez-vous visualiser la calibration (O/N) ?")
-    if res == O:
-        plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict)
+    if res in ['O','o','y','Y']:
+        plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values, t, EM4, EM7, EM10, predict, equation, R2)
 
     if r2 < 0.95:
         print('La calibration ne semble pas précise')
@@ -362,23 +364,50 @@ def default_Calibration():
     plt.show()
     return model
 
+def indiv_measure(n=10, model):
+    """_summary_
 
-def measure(model, n = 100):
+    Parameters
+    ----------
+    model : _type_
+        _description_
+    n : int, optional
+        _description_, by default 10
+
+    Returns
+    -------
+    tuple contenant les moyennes et écart types de température, voltage et ph de la solution
+    """
+
+    temp_sol = []
+        v_sol = []
+        i=0
+        while i <= n:
+            try:
+                line = port_test.readline().decode()
+                data = line.strip("\r\n").split(";")
+                temp_sol.append(float(data[0]))
+                v_sol.append(float(data[1]))
+                i+=1
+            except:
+                pass
+            
+        temp_sol = np.array(temp_sol)
+        v_sol = np.array(v_sol)
+        ph_sol = v_sol*model[0] + model[1]
+
+    return (np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np/mean(ph_sol), np.std(ph_sol))
+
+def measure(model, n_stab=20):
     """Mesure le pH en se basant sur une calibration et renvoie l'évolution des écart-type au cours du temps.
 
     Parameters
     ----------
     model: list, liste
         Calibration utilisée. Par défaut les paramètres de courbe de calibration est a = 75.55116667 et b = -163.1275.
-    n : int, nombre de mesures
-        DESCRIPTION. The default is 100.
-
-    Returns
-    -------
-    pH_measure : float
-        DESCRIPTION. La valeur du pH estimée.
-    ecart_moyenne : plot
-        DESCRIPTION. Evolution des écart à la moyenne au cours du temps.
+    n : int, nombre d'acquisitions pour une mesure
+        DESCRIPTION. The default is 10.
+    n_stab: int, nombre de mesures utilisées dans le calcul de stabilité
 
     """
 
@@ -398,45 +427,31 @@ def measure(model, n = 100):
     continuer = True
     count = 0
 
-    # test de stabilité sur dix séries de mesures
-    stab = np.zeros(10)
-    stcount = np.zeros(10)
+    # test de stabilité sur n_stab séries de mesures
+    stab = -1*np.ones(n_stab)
+    stcount = 0
     while continuer:
         
-        temp_sol = []
-        v_sol = []
-        i=0
-        while i <= 10:
-            try:
-                line = port_test.readline().decode()
-                data = line.strip("\r\n").split(";")
-                temp_sol.append(float(data[0]))
-                v_sol.append(float(data[1]))
-                i+=1
-            except:
-                pass
-            
-        temp_sol = np.array(temp_sol)
-        v_sol = np.array(v_sol)
-        ph_sol = v_sol*model[0] + model[1]
+    
         t = time.time()-t0
+        t_sol, st_sol, v_sol, sv_sol, ph_sol, stph_sol = indiv_measure(n,model)
 
         # calcule la stabilité sur les dix denières valeurs de ph moyen
         stab[stcount] = np.mean(ph_sol)
         stcount +=1 
-        if stcount < 10: # pas encore dix valeurs
-            stabilite = -1
-        else:
-            stabilite = np.std(stab)
+
+        if stcount == n_stab: # pas encore n_stab valeurs
             stcount=0 # une fois arrivé à 10 on réinitialise le compteur => on remplace les plus anciennes valeurs
 
-        st = " Temps: %4.2f\n Température: %4.2f +/- %4.2f\n Voltage: %4.2f +/- %4.2f\n PH: %4.2f +/- %4.2f\n Stabilité: %4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol),stabilite) 
+        stabilite = np.std(stab)
+            
+        st = " Temps: %4.2f\n Température: %4.2f +/- %4.2f\n Voltage: %4.2f +/- %4.2f\n PH: %4.2f +/- %4.2f\n Stabilité: %4.2f\n " % (t, t_sol, st_sol, v_sol, sv_sol, ph_sol, stph_sol, stabilite) 
         print(st)
-        st = "%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f\n " % (t, np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol),stabilite) 
+        st = "%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f;%4.2f\n" % (t, t_sol, st_sol, v_sol, sv_sol, ph_sol, stph_sol, stabilite) 
         f.write(st)
         
         count += 1
-        if count % 10 == 0 :
+        if count % 20 == 0 :
             res = input("Continuer les mesures (O/N) ? ")
             if res == 'N':
                 continuer = False
@@ -459,7 +474,7 @@ def plot_mes(T):
 
     t, mT, sT, mV, sV, mpH, spH, stabilite = np.loadtxt('DATA/fichier_mesure %s.csv' %(T), delimiter=";",unpack=True)
     
-    fig,ax = plt.subplots(2)
+    fig,ax = plt.subplots(2, figsize=(7,15))
     ax[0].plot(t,mpH, label = 'pH')
     ax[0].errorbar(t,mpH, yerr=spH, marker = 'o', color='C0')
     ax[0].set_ylabel('pH')
@@ -467,12 +482,12 @@ def plot_mes(T):
     ax1 = ax[0].twinx()
     ax1.plot(t,mT, color='C1', label='Température')
     ax1.set_ylabel('Température (°C)')
-    ax[0].title('Evolution temporelle des mesures de pH et température')
+    ax[0].set_title('Evolution temporelle des mesures de pH et température')
     ax[0].legend()
     
     
     ax[1].hist(mpH)
-    ax[1].title('Histogramme des mesures de pH')
+    ax[1].set_title('Histogramme des mesures de pH')
     ax[1].legend()
     
     plt.show()
@@ -534,9 +549,9 @@ if __name__ == '__main__':
     
     interface ="""
     ===========================================================================
-    BONJOUR
+    MENU PRINCIPAL
     ===========================================================================
-    Que voulez-vous faire ?
+    Que souhaitez-vous faire ?
     1 - Calibrer
     2 - Mesurer
     3 - Quitter
@@ -557,11 +572,13 @@ if __name__ == '__main__':
             while continuer_calib :
                 interface_calib ="""
                 ===========================================================================
+                MENU CALIBRATION
+                ===========================================================================
                 Voulez - vous :
                 1 - Calibrer avec deux tampons (pH 7 et 4) ?
                 2 - Calibrer avec trois tampons (pH 7, 4 et 10) ?
                 3 - Calibrer à partir d'une calibration déjà existante dans le répertoire
-                4 - Quitter
+                4 - Quitter le menu calibration et retourner au menu principal
                 ===========================================================================
                 ? """
                 x_calib = input(interface_calib)

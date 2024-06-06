@@ -184,12 +184,6 @@ def Calibration(buffers = [7, 4], n = 200):
 def Calibration_existante():
     """Calibre la sonde pH pour 3 tampons (7, 4 et 10) à partir d'une calibration déjà existante, et présente dans le même répertoire que ce programme.
 
-    Parameters
-    ----------
-    Le nom du fichier à pH 7
-    Le nom du fichier à pH 4
-    Le nom du fichier à pH 10
-
     Returns
     -------
     model : list, liste
@@ -211,36 +205,35 @@ def Calibration_existante():
     cali_chosen = glob.glob('./CALIB/*%s.csv' % (cali_dispo[int(res)][-28:-4]))
     # 
     
+    buffers = np.zeros(3)
     for f in cali_chosen :
         print(f)
         if 'pH4' in f:
             x_calib_existante4 = f
+            try:
+                f2 = f.split('pH')[1]
+                buffer_val = float(f2.split(' ')[0])
+                buffers[1] = buffer_val
+            except:
+                buffers.append[4]
         elif 'pH7' in f:
             x_calib_existante7 = f
+            try:
+                f2 = f.split('pH')[1]
+                buffer_val = float(f2.split(' ')[0])
+                buffers[0] = buffer_val
+            except:
+                buffers.append(7)
         elif 'pH10' in f:
             x_calib_existante10 = f
-
-
-    # interface_calib_existante7 ="""
-    # ===========================================================================
-    # Veuillez renseigner le nom du fichier à pH7 : 
-    # ===========================================================================
-    # """
-    # x_calib_existante7 = input(interface_calib_existante7)
-    # interface_calib_existante4 ="""
-    # ===========================================================================
-    # Veuillez renseigner le nom du fichier à pH4 : 
-    # ===========================================================================
-    # """
-    # x_calib_existante4 = input(interface_calib_existante4)
-    # interface_calib_existante10 ="""
-    # ===========================================================================
-    # Veuillez renseigner le nom du fichier à pH10 : 
-    # ===========================================================================
-    # """
-    # x_calib_existante10 = input(interface_calib_existante10)
+            try:
+                f2 = f.split('pH')[1]
+                buffer_val = float(f2.split(' ')[0])
+                buffers[2] = buffer_val
+            except:
+                buffer.append(10)
     
-    buffers = [7, 4, 10]
+    # buffers = [7, 4, 10]
     EM4 = []
     EM7 = []
     EM10 = []
@@ -364,7 +357,7 @@ def default_Calibration():
     plt.show()
     return model
 
-def indiv_measure(n=10, model):
+def indiv_measure(model, n=10):
     """_summary_
 
     Parameters
@@ -380,21 +373,21 @@ def indiv_measure(n=10, model):
     """
 
     temp_sol = []
-        v_sol = []
-        i=0
-        while i <= n:
-            try:
-                line = port_test.readline().decode()
-                data = line.strip("\r\n").split(";")
-                temp_sol.append(float(data[0]))
-                v_sol.append(float(data[1]))
-                i+=1
-            except:
-                pass
+    v_sol = []
+    i=0
+    while i <= n:
+        try:
+            line = port_test.readline().decode()
+            data = line.strip("\r\n").split(";")
+            temp_sol.append(float(data[0]))
+            v_sol.append(float(data[1]))
+            i+=1
+        except:
+            pass
             
-        temp_sol = np.array(temp_sol)
-        v_sol = np.array(v_sol)
-        ph_sol = v_sol*model[0] + model[1]
+    temp_sol = np.array(temp_sol)
+    v_sol = np.array(v_sol)
+    ph_sol = v_sol*model[0] + model[1]
 
     return (np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np/mean(ph_sol), np.std(ph_sol))
 

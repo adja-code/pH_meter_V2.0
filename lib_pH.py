@@ -333,7 +333,7 @@ def Calibration_existante():
     # liste des fichiers disponibles
     # comme la calib existante demande une calibration à 10 on ne fait que la liste des pH10 existants
     #
-    cali_dispo = glob.glob('./CALIB/*pH10*.csv')
+    cali_dispo = sorted(glob.glob('./CALIB/*pH10*.csv'), key=os.path.getmtime)
     print("Calibrations disponibles:")
     for i in range(len(cali_dispo)):
         print("%i - %s" % (i, cali_dispo[i]))
@@ -493,6 +493,7 @@ def default_Calibration():
     ax.plot(x_lin_reg, y_lin_reg, color = 'C1')
     ax.text(0.05, 0.95, equation_default, transform=plt.gca().transAxes, fontsize=12)
     ax.text(0.10, 0.90, R2, transform=plt.gca().transAxes, fontsize=12)
+    ax.set_title("Calibration par défaut")
     plt.show()
     return model
 
@@ -717,8 +718,11 @@ def graph():
         plt.pause(0.001)
         res = input("sauver (O/N) ? ")
         if res in ["O","o","Y","y"]:
-            plot_name = data_name[:-3]+'csv'
+            plot_name = data_name[:-3]+'pdf'
+            plot_name = "./FIGURES/"+plot_name.strip('./DATA/')
             print(plot_name)
+            plt.savefig(plot_name, bbox_inches='tight')
+            
     except:
         print("problème dans l'ouverture du fichier ou la réalisation du graphique")
 

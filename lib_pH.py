@@ -695,6 +695,13 @@ def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values
     plt.show()
 
 def graph():
+    """Fait un graphique 
+    ph =f(t) et T=f(t) avec barres d'erreurs  
+    à partir d'un fichier de mesures
+    sélectionné dans le dossier ./DATA
+
+    propose la sauvegarde du fichier dans le dossier ./FIGURES au format pdf
+    """
 
     mes_dispo = sorted(glob.glob('./DATA/*.csv'), key=os.path.getmtime)
     print("fichiers disponibles:")

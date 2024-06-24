@@ -43,16 +43,16 @@ if __name__ == '__main__':
             
             while continuer_calib :
                 interface_calib ="""
-                ===========================================================================
-                MENU CALIBRATION
-                ===========================================================================
-                Voulez - vous :
-                1 - Calibrer avec deux tampons (pH 7 et 4) ?
-                2 - Calibrer avec trois tampons (pH 7, 4 et 10) ?
-                3 - Calibrer à partir d'une calibration déjà existante dans le répertoire
-                4 - Quitter le menu calibration et retourner au menu principal
-                ===========================================================================
-                ? """
+    ===========================================================================
+    MENU CALIBRATION
+    ==========================================================================
+    Voulez - vous :
+    1 - Calibrer avec deux tampons (pH 7 et 4) ?
+    2 - Calibrer avec trois tampons (pH 7, 4 et 10) ?
+    3 - Calibrer à partir d'une calibration déjà existante dans le répertoire
+    4 - Quitter le menu calibration et retourner au menu principal
+    ===========================================================================
+    ? """
                 x_calib = input(interface_calib)
                 if x_calib == '1':
                     calib3 = False

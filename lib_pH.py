@@ -83,6 +83,8 @@ def port_connexion(br = 9600 , portIN = '') :
 
     """
 
+    arduino_list=['85035323234351504260','85035323234351E09062','75439313737351402252','8503532323435130F142','75330303934351B05162']
+
     if portIN == '' :
         ports = list(serial.tools.list_ports.comports())
     else :
@@ -92,7 +94,7 @@ def port_connexion(br = 9600 , portIN = '') :
     while conn == False :
         try :
             port = ports[i] 
-            if portIN == '' and (port.manufacturer == 'Arduino (www.arduino.cc)' or port.serial_number == '85035323234351504260'):
+            if portIN == '' and (port.manufacturer == 'Arduino (www.arduino.cc)' or port.serial_number in arduino_list ):
                 port = port.device
                 port = (port).replace('cu','tty')
                 s = serial.Serial(port=port, baudrate=br, timeout=5) 
@@ -538,6 +540,8 @@ def indiv_measure(model, n=10):
 def measure(model, n_stab=20, port_test = ''):
     """Mesure le pH en se basant sur une calibration et renvoie l'évolution des écart-type au cours du temps.
 
+    effectue n mesure individuelles 
+
     Parameters
     ----------
     model: list, liste
@@ -561,6 +565,7 @@ def measure(model, n_stab=20, port_test = ''):
 
 
     f = open('DATA/fichier_mesure %s.csv' %(T), 'w')
+    f.write("#t, t_sol, st_sol, v_sol, sv_sol, ph_sol, sph_sol, stabilite\n")
     t0 = time.time()
     continuer = True
     count = 0
@@ -688,12 +693,38 @@ def plot_calib(voltage_values, buffers, errorbuffers_values, errorvoltage_values
  
     plt.show()
 
+def graph():
 
+    mes_dispo = sorted(glob.glob('./DATA/*.csv'), key=os.path.getmtime)
+    print("fichiers disponibles:")
+    for i in range(len(mes_dispo)):
+        print("%i - %s" % (i, mes_dispo[i]))
+    res = input("Choisissez votre fichier en entrant son numéro d'ordre: ")
 
+    try:
+        data_name = mes_dispo[int(res)]
+        t, t_sol, st_sol, v_sol, sv_sol, ph_sol, sph_sol, stabilite = np.loadtxt(data_name,delimiter=';',unpack=True)
+
+        fig,ax = plt.subplots(1)
+        
+        ax.errorbar(t,ph_sol,yerr=2*sph_sol,fmt='o-', color='C0')
+        ax1 = ax.twinx()
+        ax1.errorbar(t,t_sol,yerr=2*st_sol,fmt='o-', color='C1')
+        ax.set_xlabel("temps (s)")
+        ax.set_ylabel("pH", color='C0')
+        ax1.set_ylabel("température ($^\circ$C)", color='C1')
+        plt.show()
+        plt.pause(0.001)
+        res = input("sauver (O/N) ? ")
+        if res in ["O","o","Y","y"]:
+            plot_name = data_name[:-3]+'csv'
+            print(plot_name)
+    except:
+        print("problème dans l'ouverture du fichier ou la réalisation du graphique")
 
 #######################################################
 #
-# clathi
+# clathi unused
 #
 #######################################################
 

@@ -3,19 +3,20 @@
 """
 Created on Thu Apr 25 11:34:52 2024
 
-@author: Caroline Lu, Thomas Gauthier-Brouart, Thibault Chardon, Clara Palmieri, François Métivier
+@author: Thibault Chardon, Thomas Gauthier-Brouart, Caroline Lu, François Métivier, Clara Palmieri
 """
 
 from lib_pH import *
 
 
-
-
-
-
 if __name__ == '__main__':
 
-    port, s = port_connexion()
+    plt.ion()
+
+    try:
+        port, s = port_connexion()
+    except:
+        print("Attention aucun arduino disponible")
     
     interface ="""
     ===========================================================================
@@ -24,7 +25,8 @@ if __name__ == '__main__':
     Que souhaitez-vous faire ?
     1 - Calibrer
     2 - Mesurer
-    3 - Quitter
+    3 - Représenter graphiquement
+    4 - Quitter
     ===========================================================================
     ? """
 
@@ -77,7 +79,9 @@ if __name__ == '__main__':
                 measure(model, port_test = s)
             else : 
                 measure(default_model, port_test = s)
-        elif x == '3':
+        elif x == "3":
+            graph()
+        elif x == '4':
             continuer = False
     
     print('Fin du programme')

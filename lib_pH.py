@@ -211,7 +211,10 @@ def Calibration(buffers = [7, 4], n = 200, port_test = ''):
     voltage_values = []
     errorvoltage_values = []
     T = time.asctime()
-    
+
+    if port_test == '':
+        port_test = serial.Serial(port = '/dev/ttyACM0', baudrate = 9600, timeout = 5) #Ouverture du port RS-232
+
     for i in range(len(buffers)):
     
         input('Prêt pour calibration pH%s ?' %(buffers[i]))
@@ -221,8 +224,6 @@ def Calibration(buffers = [7, 4], n = 200, port_test = ''):
         
         print('Les mesures commencent')
         
-        if port_test == '':
-            port_test = serial.Serial(port = '/dev/ttyACM0', baudrate = 9600, timeout = 5) #Ouverture du port RS-232
         
         t0 = time.time()
         t = 0
@@ -293,7 +294,6 @@ def Calibration(buffers = [7, 4], n = 200, port_test = ''):
         errorvoltage_values.append(ecart_type)
 
         f.close()
-        port_test.close()  
 
     model = np.polyfit(voltage_values, buffers, 1)
     print('Les paramètres a et b de notre regression linéaire sont', model)
@@ -504,7 +504,7 @@ def default_Calibration():
 #
 #######################################################
 
-def indiv_measure(model, n=10):
+def indiv_measure(port_test, model, n=10):
     """_summary_
 
     Parameters
@@ -525,6 +525,7 @@ def indiv_measure(model, n=10):
     while i <= n:
         try:
             line = port_test.readline().decode()
+            # print(line.strip("\r\n"))
             data = line.strip("\r\n").split(";")
             temp_sol.append(float(data[0]))
             v_sol.append(float(data[1]))
@@ -535,10 +536,10 @@ def indiv_measure(model, n=10):
     temp_sol = np.array(temp_sol)
     v_sol = np.array(v_sol)
     ph_sol = v_sol*model[0] + model[1]
+    
+    return (np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np.mean(ph_sol), np.std(ph_sol))
 
-    return (np.mean(temp_sol), np.std(temp_sol), np.mean(v_sol), np.std(v_sol), np/mean(ph_sol), np.std(ph_sol))
-
-def measure(model, n_stab=20, port_test = ''):
+def measure(model, n_stab=20, port_test = '', n=10):
     """Mesure le pH en se basant sur une calibration et renvoie l'évolution des écart-type au cours du temps.
 
     effectue n mesure individuelles 
@@ -550,6 +551,7 @@ def measure(model, n_stab=20, port_test = ''):
     n : int, nombre d'acquisitions pour une mesure
         DESCRIPTION. The default is 10.
     n_stab: int, nombre de mesures utilisées dans le calcul de stabilité
+    port_test = "", string, port com ouvert
 
     """
 
@@ -578,7 +580,7 @@ def measure(model, n_stab=20, port_test = ''):
         
     
         t = time.time()-t0
-        t_sol, st_sol, v_sol, sv_sol, ph_sol, stph_sol = indiv_measure(n,model)
+        t_sol, st_sol, v_sol, sv_sol, ph_sol, stph_sol = indiv_measure(port_test, model,n)
 
         # calcule la stabilité sur les dix denières valeurs de ph moyen
         stab[stcount] = np.mean(ph_sol)

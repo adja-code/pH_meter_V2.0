@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
     try:
         port, s = port_connexion()
+        print("pH-mètre connecté  au port %s" % (port))
     except:
         print("Attention aucun arduino disponible")
     
@@ -57,13 +58,13 @@ if __name__ == '__main__':
                 if x_calib == '1':
                     calib3 = False
                     errorbuffers_values = [0.01, 0.01]
-                    model = Calibration(buffers = [7, 4], n = 100, port_test = s)
+                    model = Calibration(buffers = [7, 4], n = 300, port_test = s)
                     new_calib=True
 
                 elif x_calib == '2':
                     calib3 = True
                     errorbuffers_values = [0.01, 0.01, 0.01]
-                    model = Calibration(buffers = [7, 4, 10], n = 100, port_test = s)
+                    model = Calibration(buffers = [7, 4, 10], n = 300, port_test = s)
                     new_calib=True
 
                 elif x_calib == '3':

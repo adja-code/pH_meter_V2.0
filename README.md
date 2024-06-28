@@ -36,4 +36,12 @@ Le script arduino est simple et consiste uniquement à demander à l'appareil d'
 
 La récupération, au moyen du port série, et l'analyse des données est effectuée au moyen d'un programme python. Pour fonctionner le programme nécessite, en plus des librairies standard l'installation des librairies suivantes: numpy, scipy, matplotlib, sklearn.
 
-Pour des raisons de simplicité le script fonctionne en mode terminal, pas d'interface utilisateur graphique donc, et offre des choix à l'étudiant.
+Pour des raisons de simplicité le script fonctionne en mode terminal, pas d'interface utilisateur graphique donc, et offre des choix à l'étudiant. Le programme permet
+
+* une calibration à deux (4,7) ou trois (4,7,10) tampon;
+* la réutilisation d'une calibration passée;
+* l'usage d'une calibration par défaut obtenue grace à une série longue de mesures;
+* la mesure du pH en continu;
+* la représentation graphique des données.
+
+Calibrations et mesures sont enregistrées en continu dans des dossiers CALIB et DATA, ce qui permet leur réutilisaiton ultérieure. La compensation de température est, pour l'heure, appliquée à la calibration uniquement.

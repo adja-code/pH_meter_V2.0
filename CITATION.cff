@@ -17,6 +17,9 @@ authors:
   - given-names: Caroline
     family-names: Lu
     affiliation: IPGP
+  - given-names: Olivier
+    family-names: Lumembe
+    affiliation: IPGP
   - given-names: François
     family-names: Métivier
     email: metivier@ipgp.fr
@@ -25,7 +28,61 @@ authors:
   - given-names: Clara
     family-names: Palmieri
     affiliation: IPGP
-url: 'https://morpho.ipgp.fr/safe-m'
+  - given-names: Victor
+    family-names: de Singly
+    affiliation: IPGP
+  - given-names: Oriane
+    family-names: Baugas-Villers
+    affiliation: IPGP
+  - given-names: Vicent
+    family-names: Bijon
+    affiliation: IPGP
+  - given-names: Adèle
+    family-names: Charles-Nicolas
+    affiliation: IPGP
+  - given-names: Camille
+    family-names: Chin
+    affiliation: IPGP
+  - given-names: Héliette
+    family-names: Fossaert
+    affiliation: IPGP
+  - given-names: Samy
+    family-names: Hallé
+    affiliation: IPGP
+  - given-names: Mathias
+    family-names: Henry-Gonzalez
+    affiliation: IPGP
+  - given-names: Clément
+    family-names: Le Liorzou
+    affiliation: IPGP
+  - given-names: Louann
+    family-names: Leroy
+    affiliation: IPGP
+  - given-names: Suzanne
+    family-names: Marchaland Le Bihan
+    affiliation: IPGP
+  - given-names: Violette
+    family-names: Monti
+    affiliation: IPGP
+  - given-names: Tara
+    family-names: Pasquet
+    affiliation: IPGP
+  - given-names: Lucie
+    family-names: Perrenx
+    affiliation: IPGP
+  - given-names: Miryam
+    family-names: Poirier
+    affiliation: IPGP
+  - given-names: Dimitri
+    family-names: Sauvage
+    affiliation: IPGP
+  - given-names: Natthagamon
+    family-names: Sookwhan 
+    affiliation: IPGP
+  - given-names: Gabrielle
+    family-names: Thommy
+    affiliation: IPGP
+url: 'https://github.com/fmetivier/pH_meter_V2.0'
 keywords:
   - pH
   - arduino

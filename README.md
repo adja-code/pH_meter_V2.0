@@ -25,7 +25,7 @@ Deux ajouts sont effectués afin d'améliorer la précision:
 Les sondes pH sont reliées à l'arduino via un amplificateur de signal muni d'un portard permettant de régler la gamme de tension. Tous les pH-mètre ont été réglé afin de pouvoir mesurer des solutions avec des pH d'au moins 2. à cette fin la vis de règlage est ajustée afin que l'électrode plongée dans une solution tampon de pH = 2 donne un voltage de 240 mV environ.
 
 Le montage est effectué au moyen d'une carte PCB dessinée avec Fritzing 
-![](./Fritzing/circuit.png)
+<!-- ![](./Fritzing/circuit.png) -->
 
 
 ## Script Arduino <a class="anchor" id="arduino-scripts"></a>

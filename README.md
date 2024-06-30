@@ -11,7 +11,7 @@
 * Il résulte d'un travail collectif effectué par des étudiants de Licence 3 de l'Institut de physique du globe de Paris.
 * Il est distribué sous la licence créative common CC-by-SA 4.0
 * Pour le citer:
-Chardon, T., Gauthier-Brouard, T., Lu, Palmieri, C., de Singly, V., C., Lumembe, O., Métivier, F.,  Baugas-Villers, O., Bijon, V., Charles-Nicolas, A., Chin, C., Fossaert, H., Hallé, S., Henry-Gonzalez, M., Le Liorzou, C., Leroy, L., Marchaland Le Bihan, S., Monti, V., Pasquet, T., Perrenx, L., Poirier, M., Sauvage, D., Sookwhan, N., & Thommy, G. (2024). SAFE-M-PH Un pH-mètre low cost pour l'enseignement [Computer software]. https://github.com/fmetivier/pH_meter_V2.0
+Chardon, T., Gauthier-Brouard, T., Lu, C., Palmieri, C., de Singly, V., Lumembe, O., Métivier, F.,  Baugas-Villers, O., Bijon, V., Charles-Nicolas, A., Chin, C., Fossaert, H., Hallé, S., Henry-Gonzalez, M., Le Liorzou, C., Leroy, L., Marchaland Le Bihan, S., Monti, V., Pasquet, T., Perrenx, L., Poirier, M., Sauvage, D., Sookwhan, N., & Thommy, G. (2024). SAFE-M-PH Un pH-mètre low cost pour l'enseignement [Computer software]. https://github.com/fmetivier/pH_meter_V2.0
 
 
 ## L'appareil <a class="anchor" id="appareil"></a>

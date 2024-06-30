@@ -17,6 +17,12 @@ authors:
   - given-names: Caroline
     family-names: Lu
     affiliation: IPGP
+  - given-names: Clara
+    family-names: Palmieri
+    affiliation: IPGP
+  - given-names: Victor
+    family-names: de Singly
+    affiliation: IPGP
   - given-names: Olivier
     family-names: Lumembe
     affiliation: IPGP
@@ -25,12 +31,6 @@ authors:
     email: metivier@ipgp.fr
     affiliation: IPGP
     orcid: 'https://orcid.org/0000-0001-8378-8734'
-  - given-names: Clara
-    family-names: Palmieri
-    affiliation: IPGP
-  - given-names: Victor
-    family-names: de Singly
-    affiliation: IPGP
   - given-names: Oriane
     family-names: Baugas-Villers
     affiliation: IPGP

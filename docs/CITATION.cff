@@ -1,0 +1,92 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: SAFE-M-PH Un pH-mètre low cost pour l'enseignement
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Thibault
+    family-names: Chardon
+    affiliation: IPGP
+  - given-names: Thomas
+    family-names: Gauthier-Brouard
+    affiliation: IPGP
+  - given-names: Caroline
+    family-names: Lu
+    affiliation: IPGP
+  - given-names: Clara
+    family-names: Palmieri
+    affiliation: IPGP
+  - given-names: Victor
+    family-names: de Singly
+    affiliation: IPGP
+  - given-names: Olivier
+    family-names: Lumembe
+    affiliation: IPGP
+  - given-names: François
+    family-names: Métivier
+    email: metivier@ipgp.fr
+    affiliation: IPGP
+    orcid: 'https://orcid.org/0000-0001-8378-8734'
+  - given-names: Oriane
+    family-names: Baugas-Villers
+    affiliation: IPGP
+  - given-names: Vicent
+    family-names: Bijon
+    affiliation: IPGP
+  - given-names: Adèle
+    family-names: Charles-Nicolas
+    affiliation: IPGP
+  - given-names: Camille
+    family-names: Chin
+    affiliation: IPGP
+  - given-names: Héliette
+    family-names: Fossaert
+    affiliation: IPGP
+  - given-names: Samy
+    family-names: Hallé
+    affiliation: IPGP
+  - given-names: Mathias
+    family-names: Henry-Gonzalez
+    affiliation: IPGP
+  - given-names: Clément
+    family-names: Le Liorzou
+    affiliation: IPGP
+  - given-names: Louann
+    family-names: Leroy
+    affiliation: IPGP
+  - given-names: Suzanne
+    family-names: Marchaland Le Bihan
+    affiliation: IPGP
+  - given-names: Violette
+    family-names: Monti
+    affiliation: IPGP
+  - given-names: Tara
+    family-names: Pasquet
+    affiliation: IPGP
+  - given-names: Lucie
+    family-names: Perrenx
+    affiliation: IPGP
+  - given-names: Miryam
+    family-names: Poirier
+    affiliation: IPGP
+  - given-names: Dimitri
+    family-names: Sauvage
+    affiliation: IPGP
+  - given-names: Natthagamon
+    family-names: Sookwhan 
+    affiliation: IPGP
+  - given-names: Gabrielle
+    family-names: Thommy
+    affiliation: IPGP
+url: 'https://github.com/fmetivier/pH_meter_V2.0'
+keywords:
+  - pH
+  - arduino
+  - python
+  - formation
+license: CC-BY-SA-4.0
+date-released: '2024-07-10'

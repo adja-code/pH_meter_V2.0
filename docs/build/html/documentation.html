@@ -45,7 +45,61 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation du pH-mètre</a></li>
 <li class="toctree-l1"><a class="reference internal" href="etalonnage.html">Comment étalonner le pH mètre</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mesures.html">Comment effectuer une mesure de pH</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation du code python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Documentation du code python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-port-connexion">Fonction port_connexion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.port_connexion"><code class="docutils literal notranslate"><span class="pre">port_connexion()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-fn-settings">Fonction fn_settings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.fn_settings"><code class="docutils literal notranslate"><span class="pre">fn_settings()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-calibration">Fonction Calibration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.Calibration"><code class="docutils literal notranslate"><span class="pre">Calibration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-calibration-existante">Fonction Calibration-existante</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.Calibration_existante"><code class="docutils literal notranslate"><span class="pre">Calibration_existante()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-default-calibration">Fonction default_Calibration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.default_Calibration"><code class="docutils literal notranslate"><span class="pre">default_Calibration()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-indiv-measure">Fonction indiv_measure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.indiv_measure"><code class="docutils literal notranslate"><span class="pre">indiv_measure()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-measure">Fonction measure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.measure"><code class="docutils literal notranslate"><span class="pre">measure()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-plot-mes">Fonction plot_mes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.plot_mes"><code class="docutils literal notranslate"><span class="pre">plot_mes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-plot-calib">Fonction plot_calib</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.plot_calib"><code class="docutils literal notranslate"><span class="pre">plot_calib()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-graph">Fonction graph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.graph"><code class="docutils literal notranslate"><span class="pre">graph()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-ph-sensor">Fonction pH_sensor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.pH_sensor"><code class="docutils literal notranslate"><span class="pre">pH_sensor()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-measurement">Fonction measurement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.measurement"><code class="docutils literal notranslate"><span class="pre">measurement()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#fonction-ph-temp-adjust">Fonction pH_temp_adjust</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lib_pH.pH_temp_adjust"><code class="docutils literal notranslate"><span class="pre">pH_temp_adjust()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -74,6 +128,283 @@
              
   <section id="documentation-du-code-python">
 <h1>Documentation du code python<a class="headerlink" href="#documentation-du-code-python" title="Lien permanent vers cette rubrique"></a></h1>
+<section id="fonction-port-connexion">
+<h2>Fonction port_connexion<a class="headerlink" href="#fonction-port-connexion" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.port_connexion">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">port_connexion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">br</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9600</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">portIN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.port_connexion" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Établit la connexion au port série.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>br</strong> (<em>int</em>) – Flux de données en baud.</p></li>
+<li><p><strong>portIN</strong> (<em>string</em>) – Identifiant du port série sur lequel le script doit lire des données.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>port</strong> (<em>string</em>) – Identifiant du port série sur lequel le script doit lire des données.</p></li>
+<li><p><strong>s</strong> (<em>serial.tools.list_ports_common.ListPortInfo / string</em>) – Objet Serial sur lequel on peut appliquer des fonctions d’ouverture, de lecture et de fermeture du port série affilié. En cas d’échec de connexion, “s” sera une chaîne de caractères « erreur ».</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-fn-settings">
+<h2>Fonction fn_settings<a class="headerlink" href="#fonction-fn-settings" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.fn_settings">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">fn_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">portIN</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">br</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_inter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_inter</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.fn_settings" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Configuration des paramètres modifiables par l’utilisateur.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>portIN</strong> (<em>string</em>) – Identifiant du port série sur lequel le script doit lire des données.</p></li>
+<li><p><strong>s</strong> (<em>serial.tools.list_ports_common.ListPortInfo</em>) – Objet Serial sur lequel on peut appliquer des fonctions d’ouverture, de lecture et de fermeture du port série affilié.</p></li>
+<li><p><strong>br</strong> (<em>int</em>) – Flux de données en baud.</p></li>
+<li><p><strong>nb_inter</strong> (<em>int</em>) – Nombre de valeurs utilisées pour constituer une mesure (une mesure correspond à la moyenne de toutes les valeurs prélevées).</p></li>
+<li><p><strong>time_inter</strong> (<em>float</em>) – Temps d’intervalle entre chaque prélèvement de valeur au sein d’une mesure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>portIN</strong> (<em>string</em>) – Identifiant du port série sur lequel le script doit lire des données.</p></li>
+<li><p><strong>s</strong> (<em>serial.tools.list_ports_common.ListPortInfo</em>) – Objet Serial sur lequel on peut appliquer des fonctions d’ouverture, de lecture et de fermeture du port série affilié.</p></li>
+<li><p><strong>br</strong> (<em>int</em>) – Flux de données en baud.</p></li>
+<li><p><strong>nb_inter</strong> (<em>int</em>) – Nombre de valeurs utilisées pour constituer une mesure (une mesure correspond à la moyenne de toutes les valeurs prélevées).</p></li>
+<li><p><strong>time_inter</strong> (<em>float</em>) – Temps d’intervalle entre chaque prélèvement de valeur au sein d’une mesure.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-calibration">
+<h2>Fonction Calibration<a class="headerlink" href="#fonction-calibration" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.Calibration">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">Calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">buffers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[7,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.Calibration" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Calibre la sonde pH pour 2 et 3 tampons (7, 4 et 10) en 100 mesures. Corrige les valeurs obtenues en fonction de la température.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>buffers</strong> (<em>list</em><em>, </em><em>liste</em>) – DESCRIPTION. The default is [7, 4].</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>nombre de mesures</em>) – DESCRIPTION. The default is 100.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>model</strong> – DESCRIPTION. Les paramètres a et b de la courbe de calibration, a correspond au coefficient directeur et b à l’ordonnée à l’origine.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list, liste</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-calibration-existante">
+<h2>Fonction Calibration-existante<a class="headerlink" href="#fonction-calibration-existante" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.Calibration_existante">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">Calibration_existante</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.Calibration_existante" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Calibre la sonde pH pour 3 tampons (7, 4 et 10) à partir d’une calibration déjà existante, et présente dans le même répertoire que ce programme.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> – DESCRIPTION. Les paramètres a et b de la courbe de calibration, a correspond au coefficient directeur et b à l’ordonnée à l’origine.</p>
+</dd>
+<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-even"><p>list, liste</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-default-calibration">
+<h2>Fonction default_Calibration<a class="headerlink" href="#fonction-default-calibration" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.default_Calibration">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">default_Calibration</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.default_Calibration" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Calibration par défaut de la sonde pH, effectuée en laboratoire.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>model</strong> – DESCRIPTION. Les paramètres a et b de la courbe de calibration par défaut, a correspond au coefficient directeur et b à l’ordonnée à l’origine.</p>
+</dd>
+<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-even"><p>list, liste</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-indiv-measure">
+<h2>Fonction indiv_measure<a class="headerlink" href="#fonction-indiv-measure" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.indiv_measure">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">indiv_measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">port_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.indiv_measure" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>_summary_</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – _description_, by default 10</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple contenant les moyennes et écart types de température, voltage et ph de la solution</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-measure">
+<h2>Fonction measure<a class="headerlink" href="#fonction-measure" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.measure">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_stab</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.measure" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Mesure le pH en se basant sur une calibration et renvoie l’évolution des écart-type au cours du temps.</p>
+<p>effectue n mesure individuelles</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>list</em><em>, </em><em>liste</em>) – Calibration utilisée. Par défaut les paramètres de courbe de calibration est a = 75.55116667 et b = -163.1275.</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>nombre d'acquisitions pour une mesure</em>) – DESCRIPTION. The default is 10.</p></li>
+<li><p><strong>n_stab</strong> (<em>int</em><em>, </em><em>nombre de mesures utilisées dans le calcul de stabilité</em>) – </p></li>
+<li><p><strong>&quot;&quot;</strong> (<em>port_test =</em>) – </p></li>
+<li><p><strong>string</strong> – </p></li>
+<li><p><strong>ouvert</strong> (<em>port com</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-plot-mes">
+<h2>Fonction plot_mes<a class="headerlink" href="#fonction-plot-mes" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.plot_mes">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">plot_mes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.plot_mes" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Représentation graphique des séries de mesures</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>T</strong> (<em>str</em>) – date du fichier</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-plot-calib">
+<h2>Fonction plot_calib<a class="headerlink" href="#fonction-plot-calib" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.plot_calib">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">plot_calib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">voltage_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorbuffers_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">errorvoltage_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EM4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EM7</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">EM10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.plot_calib" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Représentation graphique des calibrations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voltage_values</strong> (<em>_type_</em>) – valeurs de voltages de l’arduino</p></li>
+<li><p><strong>buffers</strong> (<em>_type_</em>) – valeurs des tampons</p></li>
+<li><p><strong>errorbuffers_values</strong> (<em>_type_</em>) – incertitudes sur les tampons</p></li>
+<li><p><strong>errorvoltage_values</strong> (<em>_type_</em>) – incertitude sur les voltages</p></li>
+<li><p><strong>t</strong> (<em>_type_</em>) – temps</p></li>
+<li><p><strong>EM4</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>EM7</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>EM10</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>predict</strong> (<em>_type_</em>) – fonction de prédiction pH=f(V)</p></li>
+<li><p><strong>equation</strong> (<em>_type_</em>) – equation de la calibration</p></li>
+<li><p><strong>R2</strong> (<em>_type_</em>) – R2 de la calibration</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-graph">
+<h2>Fonction graph<a class="headerlink" href="#fonction-graph" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.graph">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.graph" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Fait un graphique
+ph =f(t) et T=f(t) avec barres d’erreurs
+à partir d’un fichier de mesures
+sélectionné dans le dossier ./DATA</p>
+<p>propose la sauvegarde du fichier dans le dossier ./FIGURES au format pdf</p>
+</dd></dl>
+
+</section>
+<section id="fonction-ph-sensor">
+<h2>Fonction pH_sensor<a class="headerlink" href="#fonction-ph-sensor" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.pH_sensor">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">pH_sensor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_inter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_inter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.pH_sensor" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Mesure du voltage du pH-mètre et de la température.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_inter</strong> (<em>int</em>) – Nombre de valeurs utilisées pour constituer une mesure (une mesure correspond à la moyenne de toutes les valeurs prélevées).</p></li>
+<li><p><strong>time_inter</strong> (<em>float</em>) – Temps d’intervalle entre chaque prélèvement de valeur au sein d’une mesure.</p></li>
+<li><p><strong>s</strong> (<em>serial.tools.list_ports_common.ListPortInfo</em>) – Objet Serial sur lequel on peut appliquer des fonctions d’ouverture, de lecture et de fermeture du port série affilié.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>list_pH</strong> (<em>list</em>) – valeurs de voltages liées au pH et utilisées pour une mesure.</p></li>
+<li><p><strong>list_temperatures</strong> (<em>list</em>) – valeurs de températures utilisées pour une mesure.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-measurement">
+<h2>Fonction measurement<a class="headerlink" href="#fonction-measurement" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.measurement">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">measurement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_inter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_inter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.measurement" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Mesure unique ou en série et enregistrement éventuel des données.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>float</em>) – Pente de régression linéaire entre pH et voltage mesuré.</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – Ordonnée à l’origine de régression linéaire entre pH et voltage mesuré.</p></li>
+<li><p><strong>nb_inter</strong> (<em>int</em>) – Nombre de valeurs utilisées pour constituer une mesure (une mesure correspond à la moyenne de toutes les valeurs prélevées).</p></li>
+<li><p><strong>time_inter</strong> (<em>float</em>) – Temps d’intervalle entre chaque prélèvement de valeur au sein d’une mesure.</p></li>
+<li><p><strong>s</strong> (<em>serial.tools.list_ports_common.ListPortInfo</em>) – Objet Serial sur lequel on peut appliquer des fonctions d’ouverture, de lecture et de fermeture du port série affilié.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="fonction-ph-temp-adjust">
+<h2>Fonction pH_temp_adjust<a class="headerlink" href="#fonction-ph-temp-adjust" title="Lien permanent vers cette rubrique"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="lib_pH.pH_temp_adjust">
+<span class="sig-prename descclassname"><span class="pre">lib_pH.</span></span><span class="sig-name descname"><span class="pre">pH_temp_adjust</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pH</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib_pH.pH_temp_adjust" title="Lien permanent vers cette définition"></a></dt>
+<dd><p>Ajustement du pH étalon en fonction de la température par interpolation linéaire.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pH</strong> (<em>int</em>) – pH de la solution étalon.</p></li>
+<li><p><strong>temp</strong> (<em>float</em>) – température mesurée de la solution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>pH_adjusted</strong> – pH interpolé en fonction de correspondances entre pH et températures connues.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
